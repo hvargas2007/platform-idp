@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+:root {
+  /* WhatsApp Business color palette */
+  --color-sidebar: #075e54;
+  --color-sidebar-dark: #054c44;
+  --color-background: #f0f2f5;
+  --color-background-alt: #e9ebee;
+  --color-card: #ffffff;
+  --color-primary: #25d366;
+  --color-primary-hover: #128c7e;
+  --color-success: #25d366;
+  --color-warning: #ffa000;
+  --color-error: #dc2626;
+  --color-text: #111b21;
+  --color-text-secondary: #667781;
+  --color-whatsapp-teal: #128c7e;
+  --color-whatsapp-light-green: #dcf8c6;
+  --color-whatsapp-dark: #111b21;
+  
+  /* Legacy variables */
+  --background: #f0f2f5;
+  --foreground: #111b21;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Custom utility classes */
+.bg-sidebar {
+  background-color: var(--color-sidebar);
+}
+
+.bg-sidebar-dark {
+  background-color: var(--color-sidebar-dark);
+}
+
+.bg-card {
+  background-color: var(--color-card);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-primary-hover:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* WhatsApp style scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e9ebee;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #667781;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #128c7e;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* WhatsApp style gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+}
+
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #ffa000 0%, #f57c00 100%);
+}
+
+.bg-gradient-error {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+/* Alternative: Flat backgrounds without gradients */
+.bg-flat-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-flat-success {
+  background-color: var(--color-success);
+}
+
+.bg-flat-warning {
+  background-color: var(--color-warning);
+}
+
+.bg-flat-error {
+  background-color: var(--color-error);
+}
+
+/* WhatsApp specific styles */
+.bg-whatsapp-teal {
+  background-color: var(--color-whatsapp-teal);
+}
+
+.text-whatsapp-teal {
+  color: var(--color-whatsapp-teal);
+}
+
+.bg-whatsapp-light-green {
+  background-color: var(--color-whatsapp-light-green);
+}
+
+.bg-whatsapp-dark {
+  background-color: var(--color-whatsapp-dark);
+}
+
+.text-whatsapp-dark {
+  color: var(--color-whatsapp-dark);
+}
+
+/* WhatsApp Business style button */
+.btn-whatsapp {
+  background-color: var(--color-primary);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-whatsapp:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}

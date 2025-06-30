@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  githubId      String?   @unique
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  accounts         Account[]
+  sessions         Session[]
+  projects         Project[]
+  githubTemplates  GitHubTemplate[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Project {
+  id              String    @id @default(cuid())
+  name            String
+  description     String?
+  githubRepo      String?
+  githubTemplateId String?
+  userId          String
+  status          ProjectStatus @default(ACTIVE)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // AWS Configuration
+  awsRole         String?
+  awsRegion       String?
+  awsBackend      String?
+  projectName     String?
+  accessToken     String?   @db.Text // Encrypted
+  usernameGithub  String?
+  
+  user            User      @relation(fields: [userId], references: [id])
+  githubTemplate  GitHubTemplate? @relation(fields: [githubTemplateId], references: [id])
+}
+
+
+model GitHubTemplate {
+  id               String    @id @default(cuid())
+  templateId       String    @unique
+  name             String
+  description      String
+  category         String
+  icon             String
+  githubUrl        String
+  branch           String    @default("main")
+  features         String[]
+  includeBranches  Boolean   @default(false)
+  isPrivate        Boolean   @default(false)
+  isActive         Boolean   @default(true)
+  githubToken      String?   @db.Text // Encrypted GitHub token for private repos
+  githubOrganization String? // Organization name extracted from URL
+  owner            String?   // Repository owner extracted from URL
+  repoName         String?   // Repository name extracted from URL
+  createdBy        String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  creator          User?     @relation(fields: [createdBy], references: [id])
+  projects         Project[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+  DELETED
+}
+
